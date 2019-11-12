@@ -9,11 +9,11 @@ namespace Ags.ResourceProxy.Core.Tests {
 	[TestClass]
 	public class ProxyConfigServiceTests {
 
-		private Mock<IHostingEnvironment> _mockHostingEnv;
+		private Mock<IWebHostEnvironment> _mockHostingEnv;
 
 		[TestInitialize]
 		public void Init() {
-			_mockHostingEnv = new Mock<IHostingEnvironment>();
+			_mockHostingEnv = new Mock<IWebHostEnvironment>();
 		}
 
 		[TestMethod]

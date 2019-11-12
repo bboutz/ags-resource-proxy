@@ -11,7 +11,7 @@ namespace Ags.ResourceProxy.Core {
 	public class ProxyConfigService : IProxyConfigService {
 
 		private ProxyConfig _config;
-		private IHostingEnvironment _hostingEnvironment { get; }
+		private IWebHostEnvironment _hostingEnvironment { get; }
 
 		public virtual ProxyConfig Config {
 			get {
@@ -30,7 +30,7 @@ namespace Ags.ResourceProxy.Core {
 			_config = config ?? throw new ArgumentException(nameof(config));
 		}
 
-		public ProxyConfigService(IHostingEnvironment hostingEnvironment, string configPath) {
+		public ProxyConfigService(IWebHostEnvironment hostingEnvironment, string configPath) {
 			_hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 			ConfigPath = configPath;
 		}
