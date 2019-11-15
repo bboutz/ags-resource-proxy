@@ -4,7 +4,6 @@ using System.Net.Http;
 using Ags.ResourceProxy.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -20,8 +19,10 @@ namespace Ags.ResourceProxy.Web {
 		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services) {
-
+		public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddHttpClient();
+            services.AddSingleton<IProxyService, ProxyService>();
             services.AddSingleton<IProxyConfigService, ProxyConfigService>((proxyConfigService) =>
             {
                 var agsProxyConfig = new ProxyConfigService(proxyConfigService.GetService<IWebHostEnvironment>(),
@@ -36,8 +37,6 @@ namespace Ags.ResourceProxy.Web {
                 });
                 return agsProxyConfig;
             });
-            services.AddSingleton<IProxyService, ProxyService>();
-
             services.AddMvc(options => options.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 		}
 

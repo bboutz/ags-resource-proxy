@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,10 +16,12 @@ namespace Ags.ResourceProxy.Core {
 		public virtual ProxyConfig Config {
 			get {
 				if (_config == null) {
-					JObject proxyFile = JObject.Parse(File.ReadAllText(Path.Join(_hostingEnvironment.ContentRootPath, ConfigPath)));
-					_config = proxyFile.ToObject<ProxyConfig>();
-				}
-				return _config;
+                    var jsonReadOptions = new JsonSerializerOptions(){ReadCommentHandling = JsonCommentHandling.Skip, IgnoreNullValues = true, PropertyNameCaseInsensitive = true};
+                   _config =
+                        JsonSerializer.Deserialize<ProxyConfig>(
+                            File.ReadAllText(Path.Join(_hostingEnvironment.ContentRootPath, ConfigPath)), jsonReadOptions);
+                }
+                return _config;
 			}
 		}
 
